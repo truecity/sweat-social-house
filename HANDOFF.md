@@ -87,3 +87,7 @@ cd sweat-social-house
 ```
 
 Open this cloned root in Claude Code. CLAUDE.md imports AGENTS.md. Read HANDOFF.md before changes. Avoid simultaneous edits to the same files from separate tools. The earlier Git validation failures above describe the pre-initialization state.
+
+## Latest portrait update
+
+The hero now uses assets/april-studio-logo.png. The previous wall hearts were replaced with the supplied monogram and small heart as burgundy wall lettering, matching the studio lighting. The previous april-studio.png is retained as a historical asset. Inline JavaScript syntax and referenced assets passed validation.
