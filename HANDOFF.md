@@ -1,5 +1,17 @@
 # Sweat Social House handoff
 
+## Security and policy update — 2026-10-20
+
+Priorities 1–4 are implemented. The existing design, assets, navigation, animations, and demo form are preserved. Existing policy dialogs now contain business-specific privacy, event-terms, and refund drafts; a fitness waiver draft shares the same dialog. All are expressly non-final; there is no agreement/signature mechanism. No business identity, refund deadline, retention period, or enforceable release has been invented.
+
+Security headers in `sweat-social-house/vercel.json` now include CSP, frame restrictions, nosniff, referrer policy, and device-permission restrictions. CSP allows only the two exact inline scripts by SHA-256 hash, permits existing inline styling, and blocks connections/forms while this remains a demo. The contact inline handler was moved into the hashed script. **Any change to either inline script, including policy text, requires running `python3 scripts/check_site.py --update-csp`; validate with `python3 scripts/check_site.py`.** Never add unsafe-inline to script-src to work around a stale hash. Future registration will require deliberately updating connect-src/form-action and adding the backend protections.
+
+Dialog accessibility now includes focus on the title, Tab/Shift+Tab containment, inert background, scroll locking, Escape/backdrop/close dismissal, and focus restoration. Local browser checks with the actual headers passed: all images, eight decoration nodes, demo no-save feedback, all four dialogs, keyboard focus, background exclusion, and a 390px viewport with no horizontal overflow. No browser errors/warnings were reported. Static syntax, assets, anchors, and CSP validation passed. No comprehensive cross-browser or assistive-technology audit has been performed.
+
+Remaining before real registration: confirm the legal operator and monitored contact, age/guardian rules, hosting-log practices, data retention/deletion process, processors, and consent workflow. Before ticket sales: finalize cancellation/refund/weather/transfer terms and payment protections. Before event launch: qualified attorney review of all applicable documents, including release scope, parties, emergency procedures, and photo permission. The waiver draft is not active liability protection.
+
+Drafting references: [FTC consumer privacy guidance](https://www.ftc.gov/business-guidance/privacy-security/consumer-privacy), [FTC information protection guide](https://www.ftc.gov/business-guidance/resources/protecting-personal-information-guide-business), [Georgia published code/annotations, historical reference only](https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t1-t2-t3-%28v3%29-2019-pdf.pdf). These inform review topics; they do not establish current legal compliance or waiver enforceability.
+
 ## Built and deployed
 
 - Responsive static landing page with burgundy/blush branding, centered wide logo and matching header background.
@@ -36,7 +48,7 @@ The earlier Vercel blocker was resolved through direct CLI browser login as `tru
 - Real waitlist backend, email delivery, consent/privacy details and owner access remain unimplemented. Decide the service and data-retention requirements before collecting real personal information.
 - Confirm exact event date/time, venue, capacity, price and registration process with April.
 - Replace placeholder contact behavior with a verified business address when supplied.
-- Policy dialogs need keyboard focus management and focus restoration review. Placeholder policies are not launch-ready business policies.
+- Policy dialog keyboard handling is now implemented (see latest update above). Business-specific drafts still require owner decisions and attorney review before use.
 - Large PNG assets make the release archive approximately 14 MB; optimize formats/resolutions for phones without degrading approved visuals.
 - Inline CSS has accumulated duplicate overrides. Consider consolidating later in a dedicated code change; unused style.css and script.js are misleading legacy files.
 - Header artwork is intentionally stretched to the user's requested banner proportions; consider a purpose-designed wide asset if quality becomes a concern.

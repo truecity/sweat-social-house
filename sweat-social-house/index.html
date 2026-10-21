@@ -29,6 +29,7 @@
 .falling-heart{height:auto;aspect-ratio:1.55}.falling-heart img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}@media(max-width:760px){.falling-heart:nth-child(n+7){display:none}}
 /* Improve small monogram legibility without crowding the page. */
 .falling-heart img{filter:contrast(1.2) drop-shadow(0 0 .3px #773b46)}@keyframes heart-fall{0%{transform:translate3d(0,-60px,0) rotate(-5deg);opacity:0}8%{opacity:.48}88%{opacity:.48}100%{transform:translate3d(var(--drift),calc(100dvh + 100px),0) rotate(8deg);opacity:0}}@media(max-width:760px){.falling-heart{width:58px}.falling-heart:nth-child(n+5){display:none}}
+.dialog h4{margin:22px 0 6px;font-size:16px}.dialog p{margin:0 0 16px}.dialog{overscroll-behavior:contain}.dialog #modalTitle:focus{outline:none}
 </style></head><body><div class="falling-hearts" aria-hidden="true"></div>
 <header class="nav"><div class="wrap navin"><a href="#top" class="brand" aria-label="Sweat Social House home"><img class="headerLogo" src="assets/reference-1.jpg" alt="Sweat Social House"></a><nav class="links"><a href="#experience">The Experience</a><a href="#event">Our First Event</a><a href="#about">Our Story</a><a class="btn small" href="#join">Waitlist Demo</a></nav></div></header>
 <main id="top"><section class="hero"><div class="wrap heroGrid"><div><div class="eyebrow">MOVEMENT · WELLNESS · COMMUNITY</div><img class="brandArt" src="assets/reference-1.jpg" alt="Sweat Social House signature burgundy and blush logo"><h1>Come for the <span class="italic">sweat.</span><br>Stay for the <span class="italic">social.</span></h1><p>A feel-good space to move your body, meet your people, and pour back into yourself. Women-centered. Beginner-friendly. All good energy.</p><div class="actions"><a class="btn" href="#join">Preview the Waitlist ♡</a><a class="btn light" href="#experience">Explore the Experience</a></div><p style="font-size:13px;margin-top:22px">♡ Our first gathering is planned for May 2027</p></div><div class="heroPhoto"><div class="approvedPortrait"><img src="assets/april-studio-logo.png" alt="April wearing pink workout clothes with Sweat Social House monograms"></div></div></div></section>
@@ -38,8 +39,210 @@
 <section class="section"><div class="wrap center"><div class="eyebrow">Picture your morning</div><h2>The little details <span class="italic">matter.</span></h2><p class="lead">The vibe is blush pink, good music, fresh air, and a community that cheers each other on.</p><div class="gallery"><figure><img src="assets/welcome-latest.png" alt="Pink themed welcome and check-in area"><figcaption>A warm welcome</figcaption></figure><figure><img src="assets/hydration-latest.png" alt="Pink themed water and refreshment station"><figcaption>Refresh & recharge</figcaption></figure><figure><img src="assets/lounge-latest.png" alt="Cozy post-workout outdoor social lounge"><figcaption>Stay for the social</figcaption></figure></div><p class="notice" style="margin-top:18px">Photos are inspiration references, not images of a past Sweat Social House event.</p></div></section>
 <section class="section" id="about"><div class="wrap about"><img src="assets/photo-area-latest.png" alt="Pink photo backdrop at an outdoor fitness event"><div><div class="eyebrow">A note from our founder</div><h2>Made for <span class="italic">real connection.</span></h2><p>Sweat Social House is April's vision for a space where women can take time for themselves, move with confidence, and build community along the way.</p><p>We're starting small and intentional: one welcoming workout, a beautiful atmosphere, and room for everyone to feel included.</p><a href="#join" class="btn light">View the Waitlist Demo ♡</a></div></div></section>
 <section class="section register" id="join"><div class="wrap center"><div class="eyebrow">Be part of the beginning</div><h2>You're invited to <span class="italic">the house.</span></h2><p class="lead">DEMO WAITLIST — Registration is not open. This preview does not send or save information or reserve a place.</p><div class="formCard" style="text-align:left"><form id="signup"><p class="notice"><strong>Demo only — backend not configured.</strong><br>Try the preview with the sample details below. No personal information is collected by this form.</p><div class="fields"><div class="field"><label for="first">Sample first name</label><input id="first" value="Future friend" readonly></div><div class="field"><label for="email">Sample email</label><input id="email" value="friend@example.com" readonly></div></div><button class="btn" type="submit" style="margin-top:20px">Try the Demo ♡</button><div class="success" id="success" role="status">Demo complete ♡ Nothing was sent or saved. You have not joined a waitlist or reserved a spot.</div><p class="notice">Real registration will open after a backend is configured. No tickets or payments are being taken.</p></form></div></div></section></main>
-<footer class="foot"><div class="wrap footin"><div><strong style="font:italic 28px Georgia,serif">Sweat Social House ♥</strong><br><small>Movement • Wellness • Community<br>Atlanta metro • Launching May 2027</small></div><div class="footerlinks"><a href="#" data-policy="privacy">Privacy Preview</a><a href="#" data-policy="terms">Event Terms Preview</a><a href="#" data-policy="refund">Refund Policy Preview</a><a href="mailto:hello@example.com" onclick="event.preventDefault();alert('Business email address coming soon.')">Contact Coming Soon</a></div></div></footer>
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="dialog"><button id="close" aria-label="Close">×</button><h3 id="modalTitle"></h3><div id="modalBody"></div></div></div>
-<script>const policies={privacy:['Privacy preview','This is a demonstration website. The form does not transmit, store, or collect submitted personal data. Before launching a real waitlist, Sweat Social House will publish a complete privacy policy identifying its contact information, data processors, retention periods, and how to request deletion.'],terms:['Event terms preview','No event bookings are available on this demo website. The proposed May 2027 event, venue, class format, pricing, and capacity are subject to change. Before paid registration opens, participants will receive final event terms and an appropriate fitness participation waiver.'],refund:['Refund policy preview','No payments are accepted on this demonstration website. Refund, transfer, cancellation, and weather-rescheduling terms will be finalized and displayed before tickets are offered for sale.']};const modal=document.getElementById('modal');document.querySelectorAll('[data-policy]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const [title,body]=policies[a.dataset.policy];document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').textContent=body;modal.classList.add('open')}));document.getElementById('close').onclick=()=>modal.classList.remove('open');modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});document.getElementById('signup').addEventListener('submit',e=>{e.preventDefault();document.getElementById('success').style.display='block';document.getElementById('success').scrollIntoView({block:'nearest'})});</script><script>
+<footer class="foot"><div class="wrap footin"><div><strong style="font:italic 28px Georgia,serif">Sweat Social House ♥</strong><br><small>Movement • Wellness • Community<br>Atlanta metro • Launching May 2027</small></div><div class="footerlinks"><a href="#" data-policy="privacy">Privacy Draft</a><a href="#" data-policy="terms">Event Terms Draft</a><a href="#" data-policy="refund">Refund Policy Draft</a><a href="#" data-policy="waiver">Fitness Waiver Draft</a><a href="#" id="contact-preview">Contact Coming Soon</a></div></div></footer>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="dialog"><button id="close" aria-label="Close">×</button><h3 id="modalTitle" tabindex="-1"></h3><div id="modalBody"></div></div></div>
+<script>
+const policies = {
+  "privacy": {
+    "title": "Privacy policy — draft",
+    "sections": [
+      [
+        "Draft status",
+        "Sweat Social House • Review version 2026-10-20. This draft describes the current demonstration website. It is not a finalized policy for future registration. Business and attorney review are pending; an effective date will be added when approved."
+      ],
+      [
+        "Who we are",
+        "Sweat Social House is April’s women-centered movement, wellness, and community project, planning a May 2027 gathering for 15–20 guests in the Atlanta metro area. The legal business name, business address, and monitored privacy contact must be confirmed before real signups open. The site’s Contact Coming Soon link is not an active contact channel."
+      ],
+      [
+        "The demo form",
+        "The sample name and email are read-only demonstration values. Trying the demo does not send or save them, create an account, subscribe you to messages, reserve a place, or accept any legal document. Please do not send personal or health information through this preview."
+      ],
+      [
+        "Website traffic and hosting",
+        "Vercel hosts this website and receives connection information when your browser requests pages and images, including your IP address and request/browser information. That traffic is separate from the demo form. Hosting security, delivery, and logging may process this information. The business has not yet confirmed the applicable hosting-log retention settings; these must be reviewed before this policy is finalized."
+      ],
+      [
+        "Cookies, analytics, and other services",
+        "The current application does not set cookies, write browser storage, load advertising trackers, or include analytics, payment, or email-provider scripts. Images are served with the site. GitHub stores the website source code and is not a signup destination. No customer database is connected. This description must be reviewed if services change."
+      ],
+      [
+        "Future registration and your choices",
+        "Before enabling registration, we will explain the information requested, its purposes, the selected providers, retention/deletion periods, and a working contact route for privacy requests. Optional marketing choices should be separate from event participation and the fitness waiver. No marketing subscription or consent record is created today. Data-access or deletion procedures and any applicable rights must be finalized for the actual business and audience."
+      ],
+      [
+        "Items to finalize",
+        "Confirm the legal operator and contact, hosting data practices and retention, audience/age rules, future processors and international handling if applicable, security and deletion procedures, applicable privacy rights, and an effective date. A new version must accurately describe any real collection before it begins."
+      ]
+    ]
+  },
+  "terms": {
+    "title": "Event terms — draft",
+    "sections": [
+      [
+        "Draft status",
+        "Sweat Social House • Review version 2026-10-20. These proposed terms are for owner and attorney review. Viewing them or using the demo does not create a booking, contract, or acceptance record."
+      ],
+      [
+        "The proposed experience",
+        "April plans to lead an intimate full-body sculpt workout followed by time to socialize, with 15–20 guests in the Atlanta metro area in May 2027. The exact date, venue, schedule, ticket price, included refreshments/equipment, and availability are not confirmed. Inspiration photographs do not depict a past Sweat Social House event or guarantee a final venue or setup."
+      ],
+      [
+        "Registration and participation",
+        "No tickets or reservations are available through this site. Final registration terms must identify the legal organizer, eligibility/age requirements, accessibility arrangements, arrival instructions, and what participants should bring. Capacity and admission must be confirmed through the future booking system; trying the demo does not secure a spot."
+      ],
+      [
+        "Community and safety",
+        "Proposed participant expectations are respectful conduct, following reasonable instructor and venue safety directions, and choosing a comfortable level of activity. Participants may pause, modify, or stop an exercise. Fitness activities carry risks and require a separately reviewed participation waiver. Attendance is not medical care, and no particular fitness or health outcome is promised."
+      ],
+      [
+        "Changes, cancellation, and photography",
+        "The organizer must publish final weather, rescheduling, cancellation, refund, transfer, and conduct-related removal terms before taking payment. Photo/video permission should be presented separately with clear choices; browsing this site or attending must not be treated as blanket promotional consent under these draft terms."
+      ],
+      [
+        "Items to finalize",
+        "Confirm the legal organizer and contact, event details, eligibility and any guardian process, accessibility contact, participant responsibilities, photo choices, cancellation/removal rules, and applicable law/dispute provisions with counsel. Final terms and their version must be available before any future acceptance."
+      ]
+    ]
+  },
+  "refund": {
+    "title": "Refund and cancellation policy — draft",
+    "sections": [
+      [
+        "Draft status",
+        "Sweat Social House • Review version 2026-10-20. No payments are accepted and no refund entitlement is established by this proposed policy. Final business decisions and attorney review are pending."
+      ],
+      [
+        "Current demo",
+        "The demo waitlist is free and does not purchase a ticket, reserve capacity, or create a payment obligation. There is no payment provider connected to this website."
+      ],
+      [
+        "If the organizer cancels or reschedules",
+        "Before tickets are sold, the organizer must state what happens if the May 2027 event is cancelled, moved, postponed, or affected by weather or venue availability. Decisions still needed include whether guests receive a refund, transfer, or choice; how guests are notified; and any response deadline. No specific remedy has yet been approved."
+      ],
+      [
+        "Guest cancellations, transfers, and no-shows",
+        "The guest cancellation deadline, refund eligibility, transfer rules, no-show treatment, and any fees remain undecided. These must be shown before checkout and must not be inferred from this draft."
+      ],
+      [
+        "Refund requests and processing",
+        "Before payment is enabled, publish a monitored support contact, the information needed to locate a booking, the refund method and expected processing time, and treatment of payment-provider fees. Guests should never send full card numbers or sensitive payment credentials to support."
+      ],
+      [
+        "Items to finalize",
+        "Approve all deadlines, refund amounts and exceptions, transfer and weather rules, provider/fee handling, response and processing timelines, and the business contact. Apply any rights required by applicable law; have counsel review the final wording before sales."
+      ]
+    ]
+  },
+  "waiver": {
+    "title": "Fitness participation waiver — draft",
+    "sections": [
+      [
+        "Not active or ready for signature",
+        "Sweat Social House • Review version 2026-10-20. This is proposed participant-facing language for owner and attorney review. It is not an executed waiver. There is no signature, agreement button, or acceptance tracking on this site. Reading it or trying the demo does not waive rights."
+      ],
+      [
+        "Proposed activity and parties",
+        "This draft concerns April-led full-body sculpt and related movement at the planned Sweat Social House gathering in May 2027, followed by social time. Before use, insert the legal organizer, instructor’s legal name, venue, event date, participant eligibility, and the specific parties covered by the agreement. The final activities and equipment must be identified accurately."
+      ],
+      [
+        "Acknowledgment of risks — proposed language",
+        "I understand that physical exercise and an outdoor group event can involve muscle strains, sprains, falls, collisions, equipment hazards, heat or weather exposure, dehydration, and other injuries or illness, including serious injury. Conditions and individual abilities vary, and not every risk can be eliminated. I will follow safety directions and use equipment only as instructed."
+      ],
+      [
+        "Voluntary participation — proposed language",
+        "I choose whether and how to participate. I may modify, pause, or stop an activity and will stop if I feel unwell or unsafe. I am responsible for deciding whether the activity is appropriate for me and seeking advice from a qualified healthcare professional if I have concerns. Instruction is not medical diagnosis or treatment, and no fitness outcome is guaranteed. I am not required to disclose medical details through this website."
+      ],
+      [
+        "Assumption of inherent risks — proposed language",
+        "I understand the inherent risks of the activities described in the final event information and voluntarily accept those risks when I choose to participate, to the extent permitted by applicable law. This draft acknowledgment does not release any claim or authorize the organizer to disregard safety responsibilities."
+      ],
+      [
+        "Release of liability — counsel must complete",
+        "A final waiver may include a clearly defined release of specified claims against identified parties, within the limits of applicable law. The scope, any treatment of ordinary negligence, and exclusions must be drafted and approved by qualified counsel before signature. No release of gross negligence, reckless or intentional misconduct, or rights that cannot lawfully be waived is proposed here. This section is an unresolved drafting item, not an operative release."
+      ],
+      [
+        "Emergency response and photography",
+        "Before the event, the organizer must finalize emergency procedures and any emergency-contact or assistance authorization. This draft provides no medical-treatment or billing authorization. Photo/video permission and marketing consent must be handled separately and are not granted by this draft."
+      ],
+      [
+        "Before this waiver can be used",
+        "Counsel and the owner must approve the activity and risk descriptions, release language and parties, eligibility/guardian requirements, emergency provisions, applicable law, and a readable acceptance process. The future system must record the approved document version and affirmative acceptance with an appropriate retention policy. Do not collect signatures or rely on this draft as liability protection."
+      ]
+    ]
+  }
+};
+const modal = document.getElementById('modal');
+const dialog = modal.querySelector('.dialog');
+const modalTitle = document.getElementById('modalTitle');
+let policyTrigger = null;
+let backgroundState = [];
+let previousOverflow = '';
+function openPolicy(key, trigger) {
+  const policy = policies[key];
+  if (!policy) return;
+  policyTrigger = trigger;
+  modalTitle.textContent = policy.title;
+  const body = document.getElementById('modalBody');
+  body.replaceChildren();
+  policy.sections.forEach(([title, text]) => {
+    const section = document.createElement('section');
+    const heading = document.createElement('h4');
+    heading.textContent = title;
+    const paragraph = document.createElement('p');
+    paragraph.textContent = text;
+    section.append(heading, paragraph);
+    body.appendChild(section);
+  });
+  backgroundState = Array.from(document.body.children)
+    .filter(el => el !== modal && el.tagName !== 'SCRIPT')
+    .map(el => ({el, inert: el.inert}));
+  backgroundState.forEach(({el}) => { el.inert = true; });
+  previousOverflow = document.body.style.overflow;
+  document.body.style.overflow = 'hidden';
+  modal.classList.add('open');
+  dialog.scrollTop = 0;
+  modalTitle.focus({preventScroll: true});
+}
+function closePolicy() {
+  if (!modal.classList.contains('open')) return;
+  modal.classList.remove('open');
+  backgroundState.forEach(({el, inert}) => { el.inert = inert; });
+  backgroundState = [];
+  document.body.style.overflow = previousOverflow;
+  if (policyTrigger && policyTrigger.isConnected) policyTrigger.focus({preventScroll: true});
+}
+document.querySelectorAll('[data-policy]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  openPolicy(a.dataset.policy, a);
+}));
+document.getElementById('close').addEventListener('click', closePolicy);
+modal.addEventListener('click', e => { if (e.target === modal) closePolicy(); });
+document.addEventListener('keydown', e => {
+  if (!modal.classList.contains('open')) return;
+  if (e.key === 'Escape') { e.preventDefault(); closePolicy(); return; }
+  if (e.key === 'Tab') {
+    const items = Array.from(dialog.querySelectorAll('button, a[href], input, select, textarea, [tabindex]'))
+      .filter(el => !el.disabled && el.tabIndex >= 0 && el.getClientRects().length);
+    const first = items[0], last = items[items.length - 1];
+    if (!first) { e.preventDefault(); modalTitle.focus(); return; }
+    if (!items.includes(document.activeElement) ||
+        (e.shiftKey && document.activeElement === first) ||
+        (!e.shiftKey && document.activeElement === last)) {
+      e.preventDefault();
+      (e.shiftKey ? last : first).focus();
+    }
+  }
+});
+document.getElementById('contact-preview').addEventListener('click', e => {
+  e.preventDefault();
+  alert('Business email address coming soon.');
+});
+document.getElementById('signup').addEventListener('submit', e => {
+  e.preventDefault();
+  document.getElementById('success').style.display = 'block';
+  document.getElementById('success').scrollIntoView({block: 'nearest'});
+});
+</script><script>
 (()=>{const layer=document.querySelector('.falling-hearts');const heart='<img src="assets/falling-monogram.png" alt="" draggable="false">';for(let i=0;i<8;i++){const el=document.createElement('span');el.className='falling-heart';el.style.cssText='--x:'+((i*37+7)%100)+'%;--size:'+(68+(i*7)%20)+'px;--duration:'+(30+(i*3)%12)+'s;--delay:-'+((i*5)%29)+'s;--drift:'+((i%2?1:-1)*(18+i*3))+'px';el.innerHTML=heart;layer.appendChild(el)}document.addEventListener('visibilitychange',()=>document.documentElement.classList.toggle('hearts-paused',document.hidden));})();
 </script></body></html>
