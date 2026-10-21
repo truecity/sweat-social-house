@@ -1,16 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": null,
-  "outputDirectory": ".",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'none'; script-src 'sha256-dOXtgvESAkFD5teXgiIwn4YzNS7AtmcgxR9mfExggM8=' 'sha256-Rb99rgsZU1Z+BhVWlP3QWFHQYqWRUL7uno+xjlXF8e4='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
-        },
         {
           "key": "X-Frame-Options",
           "value": "DENY"
@@ -28,6 +24,90 @@
           "value": "camera=(), microphone=(), geolocation=(), payment=()"
         }
       ]
+    },
+    {
+      "source": "/((?!admin\\.html$).*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; script-src 'self' 'sha256-MMu48KzvHl2YNFOFkutT+e6jn7cnjfxxwPMXWomTJeI=' 'sha256-Rb99rgsZU1Z+BhVWlP3QWFHQYqWRUL7uno+xjlXF8e4='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/admin.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'none'; script-src 'self' https://clerk.sweatsocialhouse.com https://challenges.cloudflare.com https://*.protect.clerk.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.clerk.com; font-src 'self'; connect-src 'self' https://clerk.sweatsocialhouse.com https://*.protect.clerk.com:*; worker-src 'self' blob:; frame-src https://challenges.cloudflare.com https://*.protect.clerk.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "redirects": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.sweatsocialhouse.com"
+        }
+      ],
+      "destination": "https://sweatsocialhouse.com/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "sweat-social-house.vercel.app"
+        }
+      ],
+      "destination": "https://sweatsocialhouse.com/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.sweatsocialhouse.com"
+        }
+      ],
+      "destination": "https://sweatsocialhouse.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "sweat-social-house.vercel.app"
+        }
+      ],
+      "destination": "https://sweatsocialhouse.com/:path*",
+      "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cleanup",
+      "schedule": "0 9 * * *"
     }
   ]
 }

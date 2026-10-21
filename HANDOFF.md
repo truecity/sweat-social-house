@@ -1,5 +1,31 @@
 # Sweat Social House handoff
 
+## Current Phase 3 status — 2026-10-21
+
+**Implementation is complete; activation is blocked by sender DNS and production Clerk setup.** This section and `docs/phase-3-operations.md` supersede older static/demo-only notes below. The business details are confirmed: Sweat Social House, founder April, contact/admin email hello@sweatsocialhouse.com, domain https://sweatsocialhouse.com, Namecheap Private Email. No separate registered business name was supplied. Refund rules stay drafts; no tickets/payments/memberships were added.
+
+Built: real signup endpoint, separate development/production Neon databases and migrated schemas, database-enforced duplicate prevention, email ownership confirmation, unchecked optional marketing with exact consent history, private Clerk dashboard with search/status filters/pagination/consent history/withdrawal/removal, self-service preferences and removal, daily retention cleanup, security headers and public-build allowlist. The existing landing-page artwork, colors, typography, navigation, responsive layout and animations are preserved; only signup/contact/privacy content changes. The form starts disabled and only opens when the server confirms all required configuration.
+
+Verified locally: 9 security/build tests passed; 7 real-database scenarios plus their parent test passed using synthetic example.invalid records and an injected test-only mail transport; no emails were sent. Scenarios cover concurrent duplicates, hashed/expired/replayed/wrong-purpose tokens, consent integrity, opt-out/removal cascades, failed delivery retry, persistent throttling and retention cleanup. Static JavaScript/CSP/assets/anchors validation passed. Dependency audit: zero vulnerabilities. Browser checks: desktop/390px images loaded, no horizontal overflow, 8 desktop/4 mobile decoration nodes, pointer-events protection, accessible privacy dialog, disabled signup and unchecked marketing, preferences fragment clearing, and Clerk development sign-in rendering without subscriber access. Expected Clerk development-key warning only; no landing-page browser errors. Local unauthorized admin/cleanup requests returned 401; signup returned 503 while disabled; server source/SQL/environment/package files returned 404.
+
+Remaining before activation:
+- Namecheap's three new sender-domain DNS records have not appeared in public DNS; Resend reports `not_started`. Instructions with exact records are in `docs/email-dns-setup.md`. Existing working mailbox records have not been touched. Click/open tracking are off.
+- Clerk resource exists and its development sign-in works. Production credentials are not configured. The opened Clerk dashboard requires account-owner sign-in; complete the existing app's production domain setup and keys, then have April verify hello@sweatsocialhouse.com through the actual sign-in flow. No administrator has been granted access or pre-verified by this work.
+- Real email delivery, a real confirmed signup and an authenticated administrator journey are **not yet verified**. Production flags remain `WAITLIST_ENABLED=false`, `EMAIL_DOMAIN_VERIFIED=false`. Do not call this a functioning public waitlist until those end-to-end checks pass.
+- Confirm provider retention settings, age/guardian policy, ongoing confirmed-list retention and legal review. No marketing campaign sender is included. Event booking/refunds/waiver execution remain outside this phase.
+
+Resource IDs, setup steps, exact commands, data model/security decisions and deployment instructions are in `docs/phase-3-operations.md`. Secrets are in ignored local environment files and Vercel only; the public build excludes all server/config/SQL/environment source. The old Python source-directory preview and static ZIP deployment commands are obsolete.
+
+## Phase 3 deployment verification — 2026-10-21
+
+Production is published at https://sweatsocialhouse.com, deployment `dpl_FSSTtUvJ4zoxs2a4ir9YGfNdxnWK` (Node 24, READY, staged then promoted). The public root returned HTTP 200; deployed HTML exactly matched local source; all five configured security headers were present. All 16 rendered images (including 8 decorative marks) finished loading in the live browser. No horizontal overflow; optional marketing unchecked; signup explicitly disabled. Both www.sweatsocialhouse.com and sweat-social-house.vercel.app now redirect to the canonical domain, including the homepage. The `/admin` shortcut redirects to `/admin.html`.
+
+Live `/api/config` confirms `enabled:false`, `authEnabled:false`, no publishable key exposed while authentication is unavailable. Admin API returned 503 with the expected setup message and no data; unauthorized cleanup returned 401. Server source, environment file and package manifest returned 404. A staged invalid confirmation POST reached the production database and returned the expected 400. The admin page has a separate restricted Clerk CSP and private/no-store caching. Runtime log inspection on the previous equivalent application build found only the two expected disabled-admin 503 test entries; no unexplained crash. The one-hour query exceeded Hobby retention, so a five-minute window was used. External alerting/log drains were not configured by this phase.
+
+Code is saved on collaboration branch `codex/phase-3-waitlist`; main is not overwritten. Deployment uses the tested staged source; Git auto-deployment remains off. Activation steps above are still outstanding. No real signup email or April login has been claimed as verified.
+
+## Historical notes
+
 ## Signup phase — setup pending, 2026-10-21
 
 Requested: real email signup, secure subscriber storage, duplicate prevention, optional marketing consent, a private April dashboard, and subscriber removal requests. Preserve all existing site visuals. The user explicitly chose to keep refund rules as drafts.

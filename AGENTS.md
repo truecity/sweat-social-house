@@ -2,110 +2,78 @@
 
 ## Project and workspace
 
-A responsive women-centered fitness and community website for April, with a planned May 2027 gathering for 15–20 guests and a clearly labeled demo waitlist. Production: https://sweat-social-house.vercel.app
+Sweat Social House is April’s responsive women-centered fitness/community website. First event: May 2027, 15–20 guests; exact date/venue/pricing TBD. Production: https://sweatsocialhouse.com. Business/contact/admin email: hello@sweatsocialhouse.com. Preserve existing burgundy/blush/cream branding, typography, approved photography, header, navigation, animations and mobile layout. Do not add tickets, payments or memberships in Phase 3. Refund/waiver/event documents remain drafts.
 
 This directory is a local mirror of the ChatGPT project “Business ideas/App ideas”. Treat `sources/`, if present, as read-only reference material. Do not edit, rename, move or delete synced project files. Synced references may be replaced when another task is created. Application files live in `sweat-social-house/`.
 
-## Stack
+## Current architecture
 
-Buildless HTML, CSS and vanilla browser JavaScript, with local PNG/JPEG images and Vercel static hosting. No framework, backend, package.json, lockfile, runtime dependencies or external fonts. Active CSS and both scripts are inline in index.html. Python 3 is used for preview; Node.js is used only for syntax checks. Verified tools: Python 3.14.2, Node 24.17.0 and Vercel CLI 65.0.0; no application tool versions are pinned.
+Plain HTML/CSS/vanilla browser JavaScript with Node 24 Vercel Functions. `pg` connects to private Neon Postgres; `resend` sends requested email links; `@clerk/backend` verifies administrator sessions; `@vercel/functions` manages database pool lifecycle. Exact dependencies and lockfile are in the app directory. No framework or external fonts. Main landing styles/policies/animation remain inline; new form/dashboard/preferences logic lives in `client/`.
 
-## Install and run
+Phase 3 is implemented but registration must remain disabled until sending-domain DNS, live Clerk setup, April's verified identity and real end-to-end checks pass. Read HANDOFF.md and docs/phase-3-operations.md for the current activation state. Never infer success from a READY deployment or a successful mock/injected-mail test.
 
-No dependency installation is needed. From this workspace root:
+## Install, run, test and build
 
-```sh
-python3 -m http.server 4173 --bind 127.0.0.1 --directory sweat-social-house
-```
-
-Open http://127.0.0.1:4173. Stop with Ctrl+C. Reuse an existing preview server or choose another port if occupied; do not kill unrelated processes.
-
-## Tests and validation
-
-There is no automated test suite or npm test command. Run these checks without modifying source:
+From the repository root:
 
 ```sh
-python3 - <<'PY'
-from pathlib import Path
-import json, re, subprocess
-root = Path('sweat-social-house')
-html = (root / 'index.html').read_text()
-for code in re.findall(r'<script[^>]*>(.*?)</script>', html, re.S):
-    subprocess.run(['node', '--check'], input=code, text=True, check=True)
-for asset in set(re.findall(r'src="(assets/[^"]+)"', html)):
-    assert (root / asset).is_file(), asset
-ids = set(re.findall(r'id="([^"]+)"', html))
-for anchor in re.findall(r'href="#([^"]+)"', html):
-    assert anchor in ids, anchor
-json.loads((root / 'vercel.json').read_text())
-print('Static validation passed')
-PY
+npm --prefix sweat-social-house ci
+npm --prefix sweat-social-house test
+python3 scripts/check_site.py
+npm --prefix sweat-social-house run build
+npm --prefix sweat-social-house run dev
 ```
 
-Browser checks: load all images, test section links and policy previews, click “Try the Demo ♡” and confirm no-save/no-reservation feedback. Check desktop and 390px phone width, no horizontal overflow and no console errors. Verify reduced-motion behavior and that decorations do not intercept taps. These smoke checks are not a comprehensive automated suite.
+The dev server runs at http://127.0.0.1:4175 and serves the public build plus API routes. Stop with Ctrl+C; do not kill unrelated servers. **Do not use a Python file server over the source directory now that it contains server code and ignored credentials.**
 
-## Build and package
-
-There is no compilation. Package current source and only referenced assets:
+Before migrations/development database tests, verify the Vercel project and pull development-only settings into ignored `sweat-social-house/.env.local`. Follow docs/phase-3-operations.md. Never run the integration suite against production:
 
 ```sh
-python3 - <<'PY'
-from pathlib import Path
-import re, zipfile
-root = Path('sweat-social-house')
-html = (root / 'index.html').read_text()
-files = ['index.html', 'vercel.json', *sorted(set(re.findall(r'src="(assets/[^"]+)"', html)))]
-with zipfile.ZipFile('sweat-social-house-updated.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
-    for name in files:
-        archive.write(root / name, name)
-PY
+npm --prefix sweat-social-house run db:migrate
+cd sweat-social-house
+SSH_DATABASE_TESTS=development-only npm run test:database
 ```
 
-The matcher includes the quoted animation image path in JavaScript. Update this procedure if future code constructs paths dynamically.
+Security/build tests require no provider credentials. Integration tests use the actual development database and synthetic addresses, inject email delivery only at the test boundary, and remove their subscriber records. They do not prove real inbox delivery or an authenticated admin journey. Browser checks: all images, desktop/390px without overflow, keyboard dialogs, correct availability, unchecked optional marketing, preferences, and no unauthorized subscriber access. Decorations retain pointer-events:none, fewer mobile marks and reduced-motion support.
 
-## Deployment (when requested)
-
-Team: `truecitys-projects-07c65883` (`team_w3bnu59qAXU1AgHAKAfv0bTp`). Project: `sweat-social-house` (`prj_7Ttx2JtcqQ9HDC4V2nyLF0CyFKTc`). Never overwrite the unrelated `thisisthefirstone` project.
-
-The app connector returned creation 403 and user-lookup 404; direct CLI browser sign-in as owner `truecity` succeeded. The connector was not repaired. Use explicit team/project scope:
-
-```sh
-npm install --prefix /private/tmp/ssh-vercel-cli vercel@65.0.0
-/private/tmp/ssh-vercel-cli/node_modules/.bin/vercel login
-# Package first using the command above.
-release_dir="$(mktemp -d /private/tmp/ssh-release.XXXXXX)"
-unzip sweat-social-house-updated.zip -d "$release_dir"
-printf '.env*\n.git\n' > "$release_dir/.vercelignore"
-/private/tmp/ssh-vercel-cli/node_modules/.bin/vercel link --yes --project sweat-social-house --scope truecitys-projects-07c65883 --cwd "$release_dir"
-/private/tmp/ssh-vercel-cli/node_modules/.bin/vercel project inspect --non-interactive --scope truecitys-projects-07c65883 --cwd "$release_dir"
-# Continue only after the reported owner/project matches above.
-/private/tmp/ssh-vercel-cli/node_modules/.bin/vercel deploy --prod --yes --scope truecitys-projects-07c65883 --cwd "$release_dir"
-```
-
-The account owner completes login. Linking can generate an OIDC token in .env.local: never print, commit, package or upload it. Keep `.env*` excluded. Verify public unauthenticated access, live images and demo behavior before declaring deployment success. Deployment READY alone is insufficient.
+Changing either inline script requires `python3 scripts/check_site.py --update-csp`, then normal validation. Do not add unsafe-inline to script-src. Admin CSP is separate and must match the actual Clerk production host.
 
 ## Structure
 
-- `AGENTS.md`: shared contributor instructions; `CLAUDE.md` contains only its import.
-- `HANDOFF.md`: status, checks, limitations, decisions and GitHub bootstrap commands.
-- `sweat-social-house/index.html`: active page, inline CSS/scripts, content, policy dialogs and animation.
-- `sweat-social-house/vercel.json`: framework null, build command null, output directory `.`.
-- `sweat-social-house/assets/`: current and historical imagery. Current HTML references determine what ships.
-- `sweat-social-house/style.css` and `script.js`: unused early draft files. They are not loaded; script.js references IDs absent from the current page.
-- `imported-preview/index.html`: imported original reference with embedded images, not active source.
-- `sweat-social-house-updated.zip`: generated release, not source of truth.
-- `sweat-social-house-ready.zip`: obsolete release.
+- `AGENTS.md`: shared guide; `CLAUDE.md` contains only `@AGENTS.md`.
+- `HANDOFF.md`: latest status first, historical notes below.
+- `docs/phase-3-operations.md`: exact resource IDs, activation/release steps, security decisions and limits.
+- `docs/email-dns-setup.md`: three additional Resend DNS records; preserve existing Namecheap Private Email settings.
+- `sweat-social-house/index.html`: landing page, main styles, policy dialogs and animation.
+- `admin.html`, `preferences.html`: private dashboard shell and subscriber preferences pages.
+- `client/`: public browser scripts and portal styles; `assets/`: approved/current plus historical images.
+- `api/`: same-origin config/signup/preferences/admin/cleanup functions.
+- `server/`: database, authentication, validation, email and transactional business logic.
+- `db/`: private SQL schema; `test/`: unit/build/database tests.
+- `tools/`: public build, API dev server, migration and clean-release staging.
+- `public/`: generated/ignored public files only. Never make the project root the static output directory again.
+- `style.css` and `script.js`: unused early drafts. `imported-preview/`, old ZIPs: historical, not source of truth.
 
-Current images: reference-1.jpg, april-studio.png, group-workout.png, hydration-latest.png, welcome-latest.png, lounge-latest.png, photo-area-latest.png, falling-monogram.png.
+## Conventions and security
 
-## Conventions and gotchas
+Keep focused edits and semantic accessible HTML; use relative local image paths. Avoid incidental reformatting of the inherited compact landing page or accumulated CSS overrides. Do not alter April's appearance or delete historical imagery without a request.
 
-Use plain HTML/CSS/JS, relative local asset URLs, semantic sections and accessible labels/alt text. Avoid adding dependencies for small visual changes. The inherited page is compact/minified; successive CSS overrides at the end of its style block win. Make focused edits; do not incidentally reformat everything. Consolidation should be a separate reviewed change.
+Validate on the server, parameterize SQL, and never trust a browser-provided email/role for authorization. Every dashboard request verifies the Clerk session and intended verified primary email, then matches the pinned user ID. Never mark an administrator verified to bypass mailbox ownership or casually reset the pin. Production must reject development keys.
 
-Preserve burgundy/blush/cream branding, serif typography, responsive layout and approved portrait. Keep historical image assets until cleanup is authorized. Images include user-supplied and generated derivatives; do not alter April's appearance without a request.
+Unique normalized email prevents duplicates; do not strip provider-specific dots/plus aliases. Repeated unauthenticated submissions must not change confirmed consent. Optional marketing stays unchecked and cannot be enabled by an administrator. Store exact consent text/version/time. Only hashes of expiring confirmation/removal tokens belong in the database; don't log emails, bodies, bearer tokens, credentials or provider error payloads. Tokens in URL fragments must be cleared from browser history. GET must never delete/confirm records.
 
-The waitlist uses read-only sample values and no backend. Never imply a registration, email, stored data or reserved place exists. Contact email is a placeholder with an intercepted click; policies are previews. Venue, exact date and pricing remain unconfirmed. Inspiration imagery is not evidence of past events.
+Do not commit/print/upload `.env*`, `.vercel/`, credentials, browser state or generated release folders. Build/stage allowlists are the public/private boundary. Public signup remains closed when required configuration is missing. Do not claim a registration, delivery, reservation or dashboard login happened unless verified.
 
-Falling monogram/heart decorations are fixed CSS animations with pointer-events:none and reduced-motion support. Fewer marks appear on phones; they were enlarged/darkened/slowed for readability. Preserve these protections.
+## Deployment and collaboration
 
-Do not commit `.env*`, `.vercel/`, credentials, browser authentication state or temporary release files. Git is initialized on main with origin https://github.com/truecity/sweat-social-house.git. Vercel Git auto-deployment is not configured; production releases currently use the explicit CLI workflow above. See HANDOFF.md for collaboration setup.
+Git origin: https://github.com/truecity/sweat-social-house.git. Pull/check status before changes; use `codex/` branches. No Vercel Git auto-deployment is configured. Preserve others' work.
+
+Vercel CLI 65.0.0 authenticated as owner truecity works; the connector had creation 403/user-lookup 404 and was not repaired. Exact scope: `truecitys-projects-07c65883` / team `team_w3bnu59qAXU1AgHAKAfv0bTp`; project `sweat-social-house` / `prj_7Ttx2JtcqQ9HDC4V2nyLF0CyFKTc`. Never overwrite `thisisthefirstone`.
+
+Stage only approved deployment files:
+
+```sh
+node sweat-social-house/tools/stage-release.mjs
+```
+
+Link and inspect that printed directory with the explicit scope/project, stage production using `--prod --skip-domain`, verify it using authenticated `vercel curl` where protected, then promote the tested deployment. Full commands are in docs/phase-3-operations.md. Keep `.env*` excluded: linking creates an OIDC credential. Do not disable deployment protection to test. Verify canonical public URL, images, headers, actual availability and unauthorized API behavior after promotion. The old static ZIP workflow is obsolete.

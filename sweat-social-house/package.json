@@ -1,0 +1,21 @@
+{
+  "name": "sweat-social-house",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "dev": "node --env-file-if-exists=.env.local tools/dev.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:database": "node --env-file=.env.local --test test/database.integration.mjs",
+    "db:migrate": "node --env-file=.env.local tools/migrate.mjs"
+  },
+  "dependencies": {
+    "@clerk/backend": "3.26.0",
+    "@vercel/functions": "3.10.2",
+    "pg": "8.23.1",
+    "resend": "6.34.1"
+  }
+}
