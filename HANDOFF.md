@@ -2,6 +2,8 @@
 
 ## Security and policy update — 2026-10-20
 
+Production verification: https://sweat-social-house.vercel.app returned unauthenticated HTTP 200 with all five configured security headers and existing HSTS. Served HTML exactly matched source commit `6849a7e`; live waiver/demo behavior, all images, eight decorations, and a clean browser error/warning log were confirmed. Deployment: `dpl_7aEEtfxKSqdGHEXybxWtJ9iR3PAN` (production, READY).
+
 Priorities 1–4 are implemented. The existing design, assets, navigation, animations, and demo form are preserved. Existing policy dialogs now contain business-specific privacy, event-terms, and refund drafts; a fitness waiver draft shares the same dialog. All are expressly non-final; there is no agreement/signature mechanism. No business identity, refund deadline, retention period, or enforceable release has been invented.
 
 Security headers in `sweat-social-house/vercel.json` now include CSP, frame restrictions, nosniff, referrer policy, and device-permission restrictions. CSP allows only the two exact inline scripts by SHA-256 hash, permits existing inline styling, and blocks connections/forms while this remains a demo. The contact inline handler was moved into the hashed script. **Any change to either inline script, including policy text, requires running `python3 scripts/check_site.py --update-csp`; validate with `python3 scripts/check_site.py`.** Never add unsafe-inline to script-src to work around a stale hash. Future registration will require deliberately updating connect-src/form-action and adding the backend protections.
