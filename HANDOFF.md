@@ -1,5 +1,25 @@
 # Sweat Social House handoff
 
+## Signup phase — setup pending, 2026-10-21
+
+Requested: real email signup, secure subscriber storage, duplicate prevention, optional marketing consent, a private April dashboard, and subscriber removal requests. Preserve all existing site visuals. The user explicitly chose to keep refund rules as drafts.
+
+No subscriber feature is implemented or live yet. Read-only checks found no connected integration resources or environment variables. Setup attempts for Neon (database), Clerk (dashboard authentication), and Resend (email) each stopped with `integration_terms_acceptance_required`. No terms were accepted, no resources provisioned, and no live application changes made in this phase. The account owner must review/accept the service terms in Vercel before retrying. Resend also requires an owned sending domain. April's dashboard email, business legal/display identity, public contact email, and owned domain remain unanswered.
+
+Owner setup links:
+- https://vercel.com/truecitys-projects-07c65883/~/integrations/accept-terms/neon?source=cli
+- https://vercel.com/truecitys-projects-07c65883/~/integrations/accept-terms/clerk?source=cli
+- https://vercel.com/truecitys-projects-07c65883/~/integrations/accept-terms/resend?source=cli
+
+Implementation plan after provisioning:
+- Keep the existing HTML/CSS and add same-origin Vercel Functions; scope CSP changes to the actual API and authentication needs. Do not deploy source/config/secrets as static assets when adding server code.
+- Use a private Neon database accessed only by server functions with parameterized queries; separate test and production data. Normalize email casing/whitespace and enforce uniqueness in the database, including simultaneous requests. Do not rewrite provider-specific dots or plus aliases.
+- Collect minimal information. Use email ownership confirmation, generic duplicate responses, validation, body limits and persistent rate limiting. Keep optional marketing unchecked; record the exact consent text/version, choice and timestamp. An unauthenticated duplicate submission must not overwrite an existing subscriber's preferences.
+- Use Clerk for authentication and a server-side allowlist of April's verified account ID for every dashboard API. No public subscriber lists, browser-only authorization, or shared password. Return private/no-store responses and avoid logging personal data or tokens.
+- Use Resend with a verified sending domain for requested confirmation and removal emails. Use expiring random tokens stored as hashes. Confirm state-changing removal with POST so link scanners cannot delete records. Distinguish marketing opt-out from deletion; document retention, backups, provider logs and any required minimal suppression records before making deletion promises.
+- Test concurrent duplicate requests, consent integrity, expired/reused tokens, unauthorized dashboard access, throttling, email failures and subscriber removal end-to-end. Use designated test addresses; do not send unrequested email to real subscribers.
+- Confirm business contact and privacy/retention decisions before activating real collection. Refund/booking/payment rules remain drafts and outside this signup phase.
+
 ## Security and policy update — 2026-10-20
 
 Production verification: https://sweat-social-house.vercel.app returned unauthenticated HTTP 200 with all five configured security headers and existing HSTS. Served HTML exactly matched source commit `6849a7e`; live waiver/demo behavior, all images, eight decorations, and a clean browser error/warning log were confirmed. Deployment: `dpl_7aEEtfxKSqdGHEXybxWtJ9iR3PAN` (production, READY).
