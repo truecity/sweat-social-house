@@ -53,7 +53,7 @@ Vercel team: truecitys-projects-07c65883 (`team_w3bnu59qAXU1AgHAKAfv0bTp`). Proj
 
 - Development Neon: sweat-social-house-subscribers, `store_4tf08RIyhh5tLy6C`.
 - Separate production Neon: sweat-social-house-production, `store_nkozFbr4DM4DBc1q`.
-- Clerk: sweat-social-house-dashboard, `ir_Ahft8chRSustH8ex`, app `app_3L0mA59OLRRUIgjOmWmj9NKPevC`. Currently development only; do not create a replacement app or grant access to an unverified user.
+- Clerk: sweat-social-house-dashboard, `ir_Ahft8chRSustH8ex`, app `app_3L0mA59OLRRUIgjOmWmj9NKPevC`. Existing production instance ins_3L0mA22weeXUD1tkwGGe3XP8bdb now uses sweatsocialhouse.com. Production and Development project connections are saved with owner approval, live keys synchronized, and invite-only access selected. Five production DNS CNAMEs/certificates and April’s verified first session remain pending; see clerk-dns-setup.md. Do not create a replacement app or grant access to an unverified user.
 - Resend: sweat-social-house-email, `ir_DDPGXPUVaJ9aB4Nz`, connected to development and production. Sender domain `send.sweatsocialhouse.com`, ID `73f79f6e-948f-416d-90ba-6851381c6b1b`. Click/open tracking are off.
 
 Required server settings: `DATABASE_URL`, direct migration `DATABASE_URL_UNPOOLED`, `RESEND_API_KEY`, `RATE_LIMIT_SECRET`, `CRON_SECRET`, `APP_ORIGIN`, `WAITLIST_ENABLED`, `EMAIL_DOMAIN_VERIFIED`; admin additionally needs `CLERK_SECRET_KEY`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`. Production rejects Clerk development keys. Never print or commit values. Database URLs explicitly use TLS certificate/hostname verification.
