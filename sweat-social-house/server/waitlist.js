@@ -51,7 +51,7 @@ export async function applyToken(token,action){
       for(const [kind,granted,version,wording] of [['waitlist',true,p.privacyVersion,p.waitlistText],['marketing',p.marketing,p.version,p.marketingText]])
         await db.query('INSERT INTO ssh.consent_events(subscriber_id,kind,granted,version,wording) VALUES($1,$2,$3,$4,$5)',[record.subscriber_id,kind,granted,version,wording]);
       await db.query("DELETE FROM ssh.tokens WHERE subscriber_id=$1 AND purpose='confirm'",[record.subscriber_id]);
-      return {message:'You are confirmed ♡ You are on the May 2027 launch list. This does not reserve an event place.'};
+      return {message:'You are confirmed ♡ You are on the Summer 2027 launch list. This does not reserve an event place.'};
     }
     if(record.purpose!=='manage')throw new HttpError(400,'Request a preferences link to make this change.');
     if(action==='remove'){

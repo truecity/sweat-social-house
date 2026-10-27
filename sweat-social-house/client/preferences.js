@@ -34,7 +34,7 @@
   document.getElementById('confirm').addEventListener('click', () => send({action:'confirm',token}));
   document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => {
     pendingAction = button.dataset.action;
-    document.getElementById('choice-text').textContent = pendingAction === 'remove' ? 'Remove your subscriber record and consent history from the active database? This cannot be undone here.' : pendingAction === 'unsubscribe' ? 'Stop all launch-list and optional marketing emails?' : 'Stop optional marketing and keep May 2027 launch-list emails?';
+    document.getElementById('choice-text').textContent = pendingAction === 'remove' ? 'Remove your subscriber record and consent history from the active database? This cannot be undone here.' : pendingAction === 'unsubscribe' ? 'Stop all launch-list and optional marketing emails?' : 'Stop optional marketing and keep Summer 2027 launch-list emails?';
     dialog.showModal(); document.getElementById('choice-cancel').focus();
   }));
   document.getElementById('choice-cancel').addEventListener('click', () => dialog.close());
