@@ -2,6 +2,19 @@
 
 This guide supersedes the historical static/demo-only instructions. The public website retains its existing branding, artwork, navigation, mobile layout, and decorative animations. There are no paid tickets, payments, or memberships.
 
+## Two-track Summer 2027 site (2026-10-26)
+
+The public homepage source is now `index.html`, a minimalist coming-soon page. The full original site is preserved in `full-site.html`, with Summer 2027 timing and locally hosted Playfair Display/Montserrat fonts. Never copy the full page into the public output or assign a public/custom domain to its deployment. An obscure URL or robots rule is not access control.
+
+- Public release: `node sweat-social-house/tools/stage-release.mjs`, then the existing production staging/test/promotion steps below.
+- Private full-site preview: `node sweat-social-house/tools/stage-release.mjs --full-preview`, link the printed directory to the same project, then `vercel deploy --yes --scope truecitys-projects-07c65883 --cwd RELEASE_DIRECTORY` (no `--prod`). Keep Vercel Authentication enabled. Never promote or alias this preview to a public domain. The staged package blocks production builds and adds noindex headers; platform authentication is the actual access boundary.
+- Local full-site preview: stop the owned local server, then `SSH_SITE_VARIANT=full npm --prefix sweat-social-house run dev`. Default local development shows the coming-soon page. Both use the same port, so run only one at a time.
+- Preview access and subscriber admin access are separate. Individual Vercel access lets April view the full site; it does not grant subscriber access. The dashboard still requires the intended verified Clerk primary email and pinned user ID.
+- Full previews use Preview settings, never production database credentials. Signup stays closed when those settings are absent. Use development-only data when testing changes; never copy production settings into the Preview environment.
+- Consent version is now `waitlist-2026-10-26` with Summer 2027 wording. Stored prior consent is not rewritten.
+- Fonts and their OFL licenses live in `assets/fonts/`; no external font requests are required.
+- Policies/animation scripts remain identical across both source pages. Update both together, then run the CSP checker.
+
 ## Architecture and exact commands
 
 The landing page remains HTML/CSS/vanilla JavaScript. Same-origin Node 24 Vercel Functions use `pg` (Neon Postgres), `@clerk/backend` (administrator verification), `resend` (transactional links) and `@vercel/functions` (connection-pool lifecycle). Versions are exact in package.json and package-lock.json. Clerk's browser UI is loaded only on admin.html from its own Frontend API.

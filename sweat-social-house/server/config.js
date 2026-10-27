@@ -1,6 +1,6 @@
-export const VERSION = '2026-10-21';
-export const PRIVACY_VERSION = 'waitlist-2026-10-21';
-export const WAITLIST_WORDING = 'Email me about the May 2027 Sweat Social House launch. I have read the Privacy Notice. This is not an event booking.';
+export const VERSION = '2026-10-26';
+export const PRIVACY_VERSION = 'waitlist-2026-10-26';
+export const WAITLIST_WORDING = 'Email me about the Summer 2027 Sweat Social House launch. I have read the Privacy Notice. This is not an event booking.';
 export const MARKETING_WORDING = 'Also email me occasional Sweat Social House news and future event offers. Optional; I can unsubscribe at any time.';
 export function settings() {
   const origin = process.env.APP_ORIGIN || 'https://sweatsocialhouse.com';

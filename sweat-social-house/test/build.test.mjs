@@ -5,8 +5,16 @@ import {execFileSync} from 'node:child_process';
 test('build publishes only public pages, scripts, styles and approved images',async()=>{
  execFileSync(process.execPath,['tools/build.mjs']);
  const root=await readdir('public');assert.deepEqual(root.sort(),['admin.html','assets','client','index.html','preferences.html','robots.txt'].sort());
- const allowed=new Set(['.html','.js','.css','.png','.jpg','.txt']);
+ const allowed=new Set(['.html','.js','.css','.png','.jpg','.txt','.ttf']);
  const files=await readdir('public',{recursive:true});
  for(const file of files){if(!file.includes('.'))continue;assert.ok(allowed.has(file.slice(file.lastIndexOf('.'))),file);assert.doesNotMatch(file,/(?:\.env|node_modules|server|api\/|package|\.sql)/);}
  const html=await readFile('public/index.html','utf8');assert.match(html,/signup-fields" disabled/);assert.doesNotMatch(html,/(?:sk_live_|sk_test_|re_[A-Za-z0-9]{20}|postgresql:\/\/)/);
+});
+
+test('full preview cannot be built as production and public build excludes full-site content',async()=>{
+ assert.throws(()=>execFileSync(process.execPath,['tools/build.mjs'],{env:{...process.env,SSH_SITE_VARIANT:'full',VERCEL_ENV:'production'},stdio:'pipe'}),/preview-only/);
+ const html=await readFile('public/index.html','utf8');
+ assert.doesNotMatch(html,/id="experience"|id="about"|april-studio-logo/);
+ assert.match(html,/Summer 2027/);assert.doesNotMatch(html,/May 2027|August 2027/);
+ const files=await readdir('public',{recursive:true});assert.ok(!files.includes('full-site.html'));assert.ok(!files.includes('assets/april-studio-logo.png'));
 });

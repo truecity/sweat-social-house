@@ -7,7 +7,7 @@ const root=fileURLToPath(new URL('..',import.meta.url));
 const config=JSON.parse(await readFile(resolve(root,'vercel.json'),'utf8'));
 const handlers={};for(const name of ['config','signup','preferences','admin','cleanup'])handlers['/api/'+name]=(await import('../api/'+name+'.js')).default;
 const clerkHost=process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?Buffer.from(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY.split('_')[2],'base64').toString().replace(/\$$/,''):'';
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.txt':'text/plain; charset=utf-8'};
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.txt':'text/plain; charset=utf-8','.ttf':'font/ttf'};
 createServer(async(req,res)=>{
  try {
   const pathname=new URL(req.url,'http://127.0.0.1').pathname;

@@ -11,7 +11,11 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--update-csp', action='store_true')
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1] / 'sweat-social-house'
-html = (root / 'index.html').read_text()
+html = (root / 'full-site.html').read_text()
+public_html = (root / 'index.html').read_text()
+assert re.findall(r'<script>(.*?)</script>', public_html, re.S) == re.findall(r'<script>(.*?)</script>', html, re.S), 'Policy/animation scripts must match both tracks'
+assert 'Summer 2027' in public_html and 'May 2027' not in html
+assert 'full-site.html' not in public_html
 scripts = re.findall(r'<script>(.*?)</script>', html, re.S)
 assert len(scripts) == 2, 'Review script policy if script count changes'
 hashes = []
